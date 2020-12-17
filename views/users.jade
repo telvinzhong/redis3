@@ -1,0 +1,78 @@
+extends layout
+
+block content
+  h1 users
+
+
+  if err
+    div.alert.alert-danger= err
+
+  if msg
+    div.alert.alert-success= msg
+
+  .row
+    .col-8
+      h2 Current users
+      div
+        each s in users
+          form.p-2(action="/users/delete" method="POST")
+            input.flex-shrink-1.m-1(style="min-width:20px" type="hidden" name="_id" value=s._id)
+
+            label.form-group Name:
+              input.form-control.m-1(style="min-width:20px" type="text" name="first_name" value=s.first_name)
+            label.form-group Email:
+              input.form-control.m-1(style="min-width:20px" type="text" name="email" value=s.email)
+            //-  label.form-group Address:
+            //-   input.form-control.m-1(style="min-width:20px" type="number" name="Address" value=s.address)
+            .form-group
+              button.m-1.btn.btn-danger(type="submit" formaction="/users/delete") X
+              button.m-1.btn.btn-secondary(type="submit" formaction="/users/update") Update
+            hr
+
+      nav(aria-label="Page navigation example")
+        ul(class="pagination")
+          li(class="page-item")
+            a(class="page-link" href="/users?page=1") 1
+
+          li(class="page-item")
+            a(class="page-link" href="/users?page=2") 2
+          li(class="page-item")
+            a(class="page-link" href="/users?page=3") 3
+
+    .col-4
+      h2 Create new user
+
+      form(action="/users/create", method="post")
+        .form-group
+          label First Name
+            input.form-control(type="text", name="first_name")
+        //- .form-group
+        //-   label Last Name
+        //-     input.form-control(type="text", name="last_name")
+        .form-group
+          label Email
+            input.form-control(type="text", name="email")
+
+        button.btn.btn-primary(type="submit") Create New User
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//- then end
