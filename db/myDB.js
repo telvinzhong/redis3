@@ -38,15 +38,9 @@ function myDB() {
     const phmset = promisify(client.hmset).bind(client);
     const pzadd = promisify(client.zadd).bind(client);
 
-    user.id = await pincr("countuserId");
+    user.id = await pincr("countUserId");
     await phmset("user:" + user.id, user);
     return pzadd("users", +new Date(), user.id);
-  };
-
-  myDB.updateUser = async function (user) {
-    const phmset = promisify(client.hmset).bind(client);
-
-    return phmset("user:" + user.id, user);
   };
 
   myDB.deleteUser = async function (user) {
@@ -56,6 +50,12 @@ function myDB() {
 
     await pdel("user:" + user.id);
     return await pzrem("users", user.id);
+  };
+
+  myDB.updateUser = async function (user) {
+    const phmset = promisify(client.hmset).bind(client);
+
+    return phmset("user:" + user.id, user);
   };
 
   return myDB;
